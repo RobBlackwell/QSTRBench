@@ -1,0 +1,2 @@
+words:
+    unmunch ~/Library/Spelling/en_GB.dic  ~/Library/Spelling/en_GB.aff > words.txt

@@ -1,0 +1,4 @@
+{{"id": "{line["ID"]}",
+ "messages": [
+     {{"role": "user",
+      "content": "{line["QUESTION"].replace("\\","\\\\").replace("\n", "\\n").replace("\"","\\\"")}"}}]}}

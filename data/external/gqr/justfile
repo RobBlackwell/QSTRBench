@@ -1,0 +1,15 @@
+download:
+    curl -O https://raw.githubusercontent.com/m-westphal/gqr/refs/heads/master/data/rcc5/calculus/rcc5.comp
+    curl -O https://raw.githubusercontent.com/m-westphal/gqr/refs/heads/master/data/rcc5/calculus/rcc5.conv
+    curl -O https://raw.githubusercontent.com/m-westphal/gqr/refs/heads/master/data/rc8/calculus/rcc8.comp
+    curl -O https://raw.githubusercontent.com/m-westphal/gqr/refs/heads/master/data/rcc8/calculus/rcc8.conv
+    curl -O https://raw.githubusercontent.com/m-westphal/gqr/refs/heads/master/data/rcc23/calculus/rcc23.comp
+    curl -O https://raw.githubusercontent.com/m-westphal/gqr/refs/heads/master/data/rcc23/calculus/rcc23.conv
+    curl -O https://raw.githubusercontent.com/m-westphal/gqr/refs/heads/master/data/allen/calculus/allen.comp
+    curl -O https://raw.githubusercontent.com/m-westphal/gqr/refs/heads/master/data/allen/calculus/allen.conv
+    curl -O https://raw.githubusercontent.com/m-westphal/gqr/refs/heads/master/data/occ/calculus/occ.comp
+    curl -O https://raw.githubusercontent.com/m-westphal/gqr/refs/heads/master/data/occ/calculus/occ.conv
+    curl -O https://raw.githubusercontent.com/m-westphal/gqr/refs/heads/master/data/cd/calculus/cd.comp
+    curl -O https://raw.githubusercontent.com/m-westphal/gqr/refs/heads/master/data/cd/calculus/cd.conv
+    curl -O https://raw.githubusercontent.com/m-westphal/gqr/refs/heads/master/data/point/calculus/point.comp
+    curl -O https://raw.githubusercontent.com/m-westphal/gqr/refs/heads/master/data/point/calculus/point.conv

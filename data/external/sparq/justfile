@@ -1,0 +1,4 @@
+download:
+    curl -O https://raw.githubusercontent.com/dwolter/SparQ/refs/heads/master/Calculi/indu.lisp
+    curl -O https://raw.githubusercontent.com/dwolter/SparQ/refs/heads/master/Calculi/9intersection.lisp
+    curl -O https://raw.githubusercontent.com/dwolter/SparQ/refs/heads/master/Calculi/revised-star-calculus.lisp
