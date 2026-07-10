@@ -199,7 +199,7 @@ def plot_accuracy_by_calculus_extended(
         ax=ax2,
     )
 
-    ax1.set_xlabel("Calculus", fontsize=12)
+    ax1.set_xlabel("")
     ax2.set_xlabel("")
     ax1.set_ylabel("Model", fontsize=12)
     ax2.set_ylabel("")
@@ -214,6 +214,86 @@ def plot_accuracy_by_calculus_extended(
     plt.savefig(output_path, format="pdf", bbox_inches="tight", pad_inches=0.02)
 
 
+def compute_perfect_score_counts(df, score_field="strict_score"):
+    """Per calculus, count how many models score a perfect 1.0 (all questions, all repeats correct)."""
+    per_model = df.groupby(["CALCULUS", "model"])[score_field].mean().reset_index()
+    per_model["is_perfect"] = per_model[score_field] == 1.0
+
+    n_models = df["model"].nunique()
+    counts = per_model.groupby("CALCULUS")["is_perfect"].sum().sort_values(ascending=False)
+    counts = counts.rename("perfect_models").to_frame()
+    counts["n_models"] = n_models
+    counts["n_questions"] = df.groupby("CALCULUS")["id"].nunique().reindex(counts.index)
+
+    return counts
+
+
+def report_easiest_calculus(df):
+    """Check the paper's claim that PA is the easiest calculus (most models with a perfect score)."""
+    counts = compute_perfect_score_counts(df)
+    print(counts.to_string())
+
+    easiest = counts.index[0]
+    top = counts.iloc[0]
+    print(
+        f"Easiest calculus is {easiest}: {int(top['perfect_models'])}/{int(top['n_models'])} models "
+        f"answer all {int(top['n_questions'])} questions correctly"
+    )
+
+    return counts
+
+
+def report_perfect_by_type(df, type_value, type_label):
+    """Print perfect-score model counts by calculus, restricted to one question TYPE."""
+    type_df = df[df["TYPE"] == type_value]
+    counts = compute_perfect_score_counts(type_df)
+    print(f"\nPerfect-score models on {type_label} questions, by calculus:")
+    print(counts.to_string())
+    return counts
+
+
+def report_converse_by_calculus(df):
+    """Check the paper's claim that Converse is better handled for IA than INDU
+    (originally: IA 22/33 models perfect vs INDU 15/33)."""
+    counts = report_perfect_by_type(df, "converse", "Converse")
+
+    ia = counts.loc["IA"]
+    indu = counts.loc["INDU"]
+    print(
+        f"Converse: IA {int(ia['perfect_models'])}/{int(ia['n_models'])} models perfect vs "
+        f"INDU {int(indu['perfect_models'])}/{int(indu['n_models'])} models perfect"
+    )
+
+    return counts
+
+
+def report_cn_by_calculus(df):
+    """Print perfect-score model counts by calculus for Conceptual Neighbourhood (CN) questions."""
+    return report_perfect_by_type(df, "cn", "Conceptual Neighbourhood (CN)")
+
+
+def report_ct_by_calculus(df):
+    """Print perfect-score model counts by calculus for Composition Table (CT) questions."""
+    return report_perfect_by_type(df, "ct", "Composition Table (CT)")
+
+
+def compute_calculus_by_type_table(df, score_field="strict_score"):
+    """Mean score by calculus x question TYPE (Converse/CT/CN), aggregated across all models."""
+    table = df.groupby(["CALCULUS", "TYPE"])[score_field].mean().unstack()
+    table = table.reindex(columns=["converse", "ct", "cn"])
+    table.columns = ["Converse", "CT", "CN"]
+    table["Combined"] = df.groupby("CALCULUS")[score_field].mean()
+    table = table.sort_values("Combined", ascending=False)
+    return table
+
+
+def report_calculus_by_type(df):
+    """Print mean accuracy by calculus x question type, across all models."""
+    table = compute_calculus_by_type_table(df)
+    print(table.to_string(float_format="%.2f"))
+    return table
+
+
 def main():
     df = load_results()
     print(len(df))
@@ -226,6 +306,12 @@ def main():
 
     mean_guess_rate = df["guess_rate"].mean()
     print("Mean guess rate:", mean_guess_rate)
+
+    report_easiest_calculus(df)
+    report_calculus_by_type(df)
+    report_converse_by_calculus(df)
+    report_cn_by_calculus(df)
+    report_ct_by_calculus(df)
 
     model_order = result["model"].tolist()
 
