@@ -66,6 +66,14 @@ License](https://www.gutenberg.org/policy/license.html) available
 online at www.gutenberg.org. Credits: Chuck Greif and the Online
 Distributed Proofreading Team at http://www.pgdp.net
 
+## Acknowledgements
+
+This work was supported by The Alan Turing Institute, ESRC grant
+ES/W003473/1, EPSRC grant EP/Z003512/1, and Tongji University. We
+thank Microsoft Research (Azure credits) and Google DeepMind (Gemini
+credits) for compute support, and David Randell for discussions on the
+RCC-22 CN.
+
 ## Contact
 
 For more information, please contact: [r.e.blackwell@leeds.ac.uk](mailto:r.e.blackwell@leeds.ac.uk).
