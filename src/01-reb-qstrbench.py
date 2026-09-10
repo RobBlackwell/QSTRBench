@@ -111,10 +111,14 @@ def plot_accuracy_by_calculus(df, model_order, output_path=f"{FIGURES_DIR}/accur
     ]
 
     plt.figure(figsize=(12, 8))
-    sns.heatmap(mean_scores_sorted, annot=True, fmt=".2f", cmap="viridis", cbar_kws={"label": "Accuracy"})
+    ax = sns.heatmap(mean_scores_sorted, annot=True, fmt=".2f", cmap="viridis", cbar_kws={"label": "Accuracy"})
 
     plt.xlabel("Calculus", fontsize=12)
     plt.ylabel("Model", fontsize=12)
+
+    cbar = ax.collections[0].colorbar
+    cbar.ax.tick_params(labelsize=12)
+    cbar.set_label("Accuracy", fontsize=12)
 
     plt.tight_layout()
     plt.savefig(output_path, format="pdf")
@@ -143,7 +147,8 @@ def plot_accuracy_by_calculus_extended(
         extra_values[name] = stats_df["mean"]
         extra_annot[name] = stats_df.apply(
             lambda r: (
-                f"{r['mean']:.2f} ± {r['interval']:.3f} (n={int(r['n'])})"
+                #f"{r['mean']:.2f} ± {r['interval']:.3f} (n={int(r['n'])})"
+                f"{r['mean']:.2f} ± {r['interval']:.3f}"
                 if r["n"] > 1
                 else f"{r['mean']:.2f}"
             ),
@@ -206,9 +211,16 @@ def plot_accuracy_by_calculus_extended(
 
     # Show model names only on the left
     ax1.set_yticks(np.arange(len(left_values.index)) + 0.5)
-    ax1.set_yticklabels(left_values.index, rotation=0, fontsize=10)
+    ax1.set_yticklabels(left_values.index, rotation=0, fontsize=font_size)
+
+    ax1.set_xticklabels(ax1.get_xticklabels(), fontsize=font_size)
+    ax2.set_xticklabels(ax2.get_xticklabels(), fontsize=font_size)
 
     ax2.tick_params(axis="y", left=False, labelleft=False)
+
+    cbar = ax2.collections[0].colorbar
+    cbar.ax.tick_params(labelsize=font_size)
+    cbar.set_label("Accuracy", fontsize=font_size)
 
     plt.tight_layout()
     plt.savefig(output_path, format="pdf", bbox_inches="tight", pad_inches=0.02)
